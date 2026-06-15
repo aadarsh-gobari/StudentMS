@@ -4,16 +4,16 @@
 
 // ─── Display Menu ─────────────────────────────────────────────────
 void displayMenu() {
-    printf("\n╔══════════════════════════════════════╗\n");
-    printf("║    STUDENT MANAGEMENT SYSTEM  v1.0  ║\n");
-    printf("╠══════════════════════════════════════╣\n");
-    printf("║  1. Add Student                      ║\n");
-    printf("║  2. View All Students                ║\n");
-    printf("║  3. Search Student                   ║\n");
-    printf("║  4. Update Student                   ║\n");
-    printf("║  5. Delete Student                   ║\n");
-    printf("║  6. Exit                             ║\n");
-    printf("╚══════════════════════════════════════╝\n");
+    printf(CYAN "\n╔══════════════════════════════════════╗\n" RESET);
+    printf(CYAN "║" RESET BOLD "    STUDENT MANAGEMENT SYSTEM  v1.0  " RESET CYAN "║\n" RESET);
+    printf(CYAN "╠══════════════════════════════════════╣\n" RESET);
+    printf(CYAN "║" RESET "  1. ➕ Add Student                    " CYAN "║\n" RESET);
+    printf(CYAN "║" RESET "  2. 📋 View All Students              " CYAN "║\n" RESET);
+    printf(CYAN "║" RESET "  3. 🔍 Search Student                 " CYAN "║\n" RESET);
+    printf(CYAN "║" RESET "  4. ✏️  Update Student                 " CYAN "║\n" RESET);
+    printf(CYAN "║" RESET "  5. 🗑️  Delete Student                 " CYAN "║\n" RESET);
+    printf(CYAN "║" RESET "  6. 🚪 Exit                           " CYAN "║\n" RESET);
+    printf(CYAN "╚══════════════════════════════════════╝\n" RESET);
     printf("  Enter your choice: ");
 }
 
@@ -21,11 +21,22 @@ void displayMenu() {
 int main() {
     int choice;
 
-    printf("\n  Welcome to Student Management System\n");
+    printf(GREEN "\n  ╔══════════════════════════════════════╗\n");
+    printf(      "  ║  Welcome to Student Management System ║\n");
+    printf(      "  ╚══════════════════════════════════════╝\n\n" RESET);
+
+    loadFromFile();  // Load existing data on startup
 
     do {
         displayMenu();
-        scanf("%d", &choice);
+
+        if (scanf("%d", &choice) != 1) {
+            clearInputBuffer();
+            printf(RED "  [!] Please enter a number.\n" RESET);
+            choice = 0;
+            continue;
+        }
+        clearInputBuffer();
 
         switch (choice) {
             case 1: addStudent();      break;
@@ -34,10 +45,11 @@ int main() {
             case 4: updateStudent();   break;
             case 5: deleteStudent();   break;
             case 6:
-                printf("\n  Exiting... Goodbye!\n\n");
+                saveToFile();
+                printf(GREEN "\n  Goodbye! Data saved.\n\n" RESET);
                 break;
             default:
-                printf("\n  [!] Invalid choice. Try again.\n");
+                printf(RED "\n  [!] Invalid choice (1–6).\n" RESET);
         }
     } while (choice != 6);
 
